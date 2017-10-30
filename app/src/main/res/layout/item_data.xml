@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/root_list_item"
+    android:layout_width="match_parent"
+    android:layout_height="88dp">
+
+    <ImageView
+        android:id="@+id/imv_item_circle"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginBottom="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:background="@color/RED"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/imv_date_and_time"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginLeft="80dp"
+        android:layout_marginStart="80dp"
+        android:layout_marginTop="44dp"
+        android:src="@drawable/ic_event_black_24dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/lbl_message"
+        style="@style/Text.Primary"
+        android:layout_width="0dp"
+        android:layout_height="24dp"
+        android:layout_marginLeft="80dp"
+        android:layout_marginStart="80dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:singleLine="true"
+        android:ellipsize="end"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        tools:text="Das ist einfach nur ein kleiner Text zum testen. Der kann auch über mehrere Zeilen gehen."
+        />
+    />
+
+    <TextView
+        android:id="@+id/lbl_date_and_time"
+        style="@style/Text.Secondary"
+        android:layout_width="wrap_content"
+        android:layout_height="24dp"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="44dp"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginLeft="112dp"
+        android:layout_marginStart="112dp"
+        tools:text="2:34AM 09/07/2018" />
+
+</android.support.constraint.ConstraintLayout>
