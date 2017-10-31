@@ -44,6 +44,7 @@ public class FakeDataSource implements DataSourceInterface {
         random = new Random();
     }
 
+
     @Override
     public List<ListItem> getListOfData() {
         ArrayList<ListItem> listOfData = new ArrayList<>();
@@ -54,6 +55,14 @@ public class FakeDataSource implements DataSourceInterface {
             int randTwo = random.nextInt(4);
             int randThree = random.nextInt(4);
 
+            //Erstellt neues ListItem mit Konstruktor
+            ListItem listItem = new ListItem(
+                    datesAndTimes[randOne],
+                    messages[randTwo],
+                    colors[randThree]
+            );
+
+            listOfData.add(listItem);
         }
 
         return listOfData;

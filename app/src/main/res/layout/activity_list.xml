@@ -6,7 +6,7 @@
     android:id="@+id/root_list_activity"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.agdroid.recyclerviewdemo.ListActivity">
+    tools:context="com.agdroid.recyclerviewdemo.view.ListActivity">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rec_list_activity"
