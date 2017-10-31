@@ -90,7 +90,7 @@ public class ControllerUnitTest {
      *
      * Unit Test Homework:
      *
-     * Implement the "View", so that when we don't recieve a List, it shows some kind of
+     * Implement the "View", so that when we don't recieve a list, it shows some kind of
      * error message to the user. This is common practice that you should learn!
      *
      * I've written some hints you'll have to decipher into Java code:
