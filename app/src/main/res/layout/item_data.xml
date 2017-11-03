@@ -6,17 +6,20 @@
     android:layout_width="match_parent"
     android:layout_height="88dp">
 
-    <ImageView
-        android:id="@+id/imv_item_circle"
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/imv_list_item_circle"
         android:layout_width="48dp"
         android:layout_height="48dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:background="@color/RED"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        />
+        android:layout_marginTop="16dp"
+        android:layout_marginLeft="16dp"
+        android:alpha="0.86"
+        tools:src="@drawable/blue_drawable"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="16dp"
+        android:layout_marginStart="16dp" />
+
 
     <ImageView
         android:id="@+id/imv_date_and_time"
@@ -25,7 +28,7 @@
         android:layout_marginLeft="80dp"
         android:layout_marginStart="80dp"
         android:layout_marginTop="44dp"
-        android:src="@drawable/ic_event_black_24dp"
+        android:src="@drawable/ic_event_white_24dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -58,5 +61,22 @@
         android:layout_marginLeft="112dp"
         android:layout_marginStart="112dp"
         tools:text="2:34AM 09/07/2018" />
+
+    <!-- Den ProgressBar wird man wahrscheinlich niemals sehen. Nur für den Zweck, dass
+         eine DB angebunden ist und die Daten nicht sofort geladen werden können... -->
+        <ProgressBar
+        android:id="@+id/pro_item_data"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@color/colorPrimaryDark"
+        android:layout_marginRight="0dp"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginLeft="0dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="0dp"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="0dp" />
+
 
 </android.support.constraint.ConstraintLayout>
