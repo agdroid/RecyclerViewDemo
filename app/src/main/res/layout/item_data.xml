@@ -46,7 +46,6 @@
         app:layout_constraintRight_toRightOf="parent"
         tools:text="Das ist einfach nur ein kleiner Text zum testen. Der kann auch über mehrere Zeilen gehen."
         />
-    />
 
     <TextView
         android:id="@+id/lbl_date_and_time"
