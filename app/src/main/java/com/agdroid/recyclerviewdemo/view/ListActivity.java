@@ -2,8 +2,10 @@ package com.agdroid.recyclerviewdemo.view;
 
 import android.content.Intent;
 import android.media.Image;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -19,6 +21,15 @@ import com.agdroid.recyclerviewdemo.logic.Controller;
 
 import java.util.List;
 
+
+/**
+ * 1.
+ * List Activity is responsible for
+ * - Coordinating the User Interface
+ * - Relaying Click events to the Controller
+ * - Starting a Detail Activity
+ * -
+ */
 public class ListActivity extends AppCompatActivity implements ViewInterface {
 
     private static final String EXTRA_DATE_AND_TIME = "EXTRA_DATE_AND_TIME";
@@ -46,6 +57,16 @@ public class ListActivity extends AppCompatActivity implements ViewInterface {
         controller = new Controller(this, new FakeDataSource());
     }
 
+
+    /**
+            * 17.
+            * So, I'd normally just pass an Item's Unique ID (Key) to the other Activity, and then fetch
+     * the Item from the Database their. However, this is a RecyclerView Demo App and I'm going to
+            * simplify things like this. Also, by decomposing ListItem, it saves me having to make ListItem
+     * Parcelable and bla bla bla whatever.
+            *
+
+     */
     @Override
     public void startDetailActivity(String dateAndTime, String message, int colorResource) {
         Intent i = new Intent(this, DetailActivity.class);
@@ -59,13 +80,29 @@ public class ListActivity extends AppCompatActivity implements ViewInterface {
     @Override
     public void setUpAdapterAndView(List<ListItem> listOfData) {
         this.listOfData = listOfData;
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
 
-        //alternativ: new GridLayoutManager or StaggeredGridLayoutManager
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setLayoutManager(layoutManager);
+
         adapter = new CustomAdapter();
         recyclerView.setAdapter(adapter);
 
+        DividerItemDecoration itemDecoration = new DividerItemDecoration(
+                recyclerView.getContext(),
+                layoutManager.getOrientation()
+        );
+
+        itemDecoration.setDrawable(
+                ContextCompat.getDrawable(
+                        ListActivity.this,
+                        R.drawable.divider_white
+                )
+        );
+
+        recyclerView.addItemDecoration(itemDecoration);
+
     }
+
 
     private class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomViewHolder> {
 
