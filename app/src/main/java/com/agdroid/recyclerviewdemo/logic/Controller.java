@@ -54,4 +54,18 @@ public class Controller {
                 testItem.getColorResource()
         );
     }
+
+    public void createNewListItem() {
+             /*
+        To simulate telling the DataSource to create a new record and waiting for it's response,
+        we'll simply have it return a new ListItem.
+        In a real App, I'd use RxJava 2 (or some other
+        API/Framework for Asynchronous Communication) to have the Datasource do this on the
+         IO thread, and respond via an Asynchronous callback to the Main thread.
+         */
+
+        ListItem newItem = dataSource.createNewListItem();
+
+        view.addNewListItemToView(newItem);
+    }
 }

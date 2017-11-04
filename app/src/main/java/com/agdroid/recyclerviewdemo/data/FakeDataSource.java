@@ -33,11 +33,11 @@ public class FakeDataSource implements DataSourceInterface {
                     "learn/teach different from each other. Find an explanation that speaks to you."
     };
 
-    private final int[] colors = {
-            R.color.RED,
-            R.color.BLUE,
-            R.color.GREEN,
-            R.color.YELLOW
+    private final int[] drawables = {
+            R.drawable.green_drawable,
+            R.drawable.red_drawable,
+            R.drawable.blue_drawable,
+            R.drawable.yellow_drawable
     };
 
     public FakeDataSource() {
@@ -51,20 +51,29 @@ public class FakeDataSource implements DataSourceInterface {
 
         Random random = new Random();
         for (int i = 0; i < SIZE_OF_COLLECTION; i++) {
-            int randOne = random.nextInt(4);
-            int randTwo = random.nextInt(4);
-            int randThree = random.nextInt(4);
 
-            //Erstellt neues ListItem mit Konstruktor
-            ListItem listItem = new ListItem(
-                    datesAndTimes[randOne],
-                    messages[randTwo],
-                    colors[randThree]
+            listOfData.add(
+                    createNewListItem()
             );
-
-            listOfData.add(listItem);
         }
 
         return listOfData;
+    }
+
+    @Override
+    public ListItem createNewListItem() {
+        //these will be 0, 1, 2, or 3
+        int randOne = random.nextInt(4);
+        int randTwo = random.nextInt(4);
+        int randThree = random.nextInt(4);
+
+        //creates a semi-random ListItem
+        ListItem listItem = new ListItem(
+                datesAndTimes[randOne],
+                messages[randTwo],
+                drawables[randThree]
+        );
+
+        return listItem;
     }
 }

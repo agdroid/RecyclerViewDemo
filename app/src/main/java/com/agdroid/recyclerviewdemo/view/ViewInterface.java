@@ -14,4 +14,5 @@ public interface ViewInterface {
 
     void setUpAdapterAndView(List<ListItem> listOfData);
 
+    void addNewListItemToView(ListItem newItem);
 }

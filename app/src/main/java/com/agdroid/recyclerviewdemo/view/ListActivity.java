@@ -1,10 +1,10 @@
 package com.agdroid.recyclerviewdemo.view;
 
 import android.content.Intent;
-import android.media.Image;
+import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -30,11 +30,11 @@ import java.util.List;
  * - Starting a Detail Activity
  * -
  */
-public class ListActivity extends AppCompatActivity implements ViewInterface {
+public class ListActivity extends AppCompatActivity implements ViewInterface, View.OnClickListener {
 
     private static final String EXTRA_DATE_AND_TIME = "EXTRA_DATE_AND_TIME";
     private static final String EXTRA_MESSAGE = "EXTRA_MESSAGE";
-    private static final String EXTRA_COLOR = "EXTRA_COLOR";
+    private static final String EXTRA_DRAWABLE = "EXTRA_DRAWABLE";
 
     private List<ListItem> listOfData;
 
@@ -53,26 +53,27 @@ public class ListActivity extends AppCompatActivity implements ViewInterface {
         recyclerView = (RecyclerView) findViewById(R.id.rec_list_activity);
         layoutInflator = getLayoutInflater();
 
+        FloatingActionButton fabulous = (FloatingActionButton) findViewById(R.id.fab_create_new_item);
+        fabulous.setOnClickListener(this);
+
         //This is dependency injection here.
         controller = new Controller(this, new FakeDataSource());
     }
 
 
     /**
-            * 17.
-            * So, I'd normally just pass an Item's Unique ID (Key) to the other Activity, and then fetch
+     * 17.
+     * So, I'd normally just pass an Item's Unique ID (Key) to the other Activity, and then fetch
      * the Item from the Database their. However, this is a RecyclerView Demo App and I'm going to
-            * simplify things like this. Also, by decomposing ListItem, it saves me having to make ListItem
+     * simplify things like this. Also, by decomposing ListItem, it saves me having to make ListItem
      * Parcelable and bla bla bla whatever.
-            *
-
      */
     @Override
     public void startDetailActivity(String dateAndTime, String message, int colorResource) {
         Intent i = new Intent(this, DetailActivity.class);
         i.putExtra(EXTRA_DATE_AND_TIME, dateAndTime);
         i.putExtra(EXTRA_MESSAGE, message);
-        i.putExtra(EXTRA_COLOR, colorResource);
+        i.putExtra(EXTRA_DRAWABLE, colorResource);
 
         startActivity(i);
     }
@@ -100,6 +101,25 @@ public class ListActivity extends AppCompatActivity implements ViewInterface {
         );
 
         recyclerView.addItemDecoration(itemDecoration);
+
+    }
+
+    @Override
+    public void addNewListItemToView(ListItem newItem) {
+        listOfData.add(newItem);
+
+        int endOfList = listOfData.size() - 1;
+        adapter.notifyItemInserted(endOfList);
+        recyclerView.smoothScrollToPosition(endOfList);
+    }
+
+    @Override
+    public void onClick(View v) {
+        int viewId = v.getId();
+        if (viewId == R.id.fab_create_new_item) {
+            //User wishes to creat a new RecyclerView Item
+            controller.createNewListItem();
+        }
 
     }
 
@@ -139,7 +159,7 @@ public class ListActivity extends AppCompatActivity implements ViewInterface {
             public CustomViewHolder(View itemView) {
                 super(itemView);
 
-                this.coloredCircle = (ImageView) itemView.findViewById(R.id.imv_item_circle);
+                this.coloredCircle = (ImageView) itemView.findViewById(R.id.imv_list_item_circle);
                 this.dateAndTime = (TextView) itemView.findViewById(R.id.lbl_date_and_time);
                 this.message = (TextView) itemView.findViewById(R.id.lbl_message);
                 this.container = (ViewGroup) itemView.findViewById(R.id.root_list_item);

@@ -13,7 +13,7 @@ public class DetailActivity extends AppCompatActivity {
 
     private static final String EXTRA_DATE_AND_TIME = "EXTRA_DATE_AND_TIME";
     private static final String EXTRA_MESSAGE = "EXTRA_MESSAGE";
-    private static final String EXTRA_COLOR = "EXTRA_COLOR";
+    private static final String EXTRA_DRAWABLE = "EXTRA_DRAWABLE";
 
     private TextView dateAndTime;
     private TextView message;
@@ -30,7 +30,7 @@ public class DetailActivity extends AppCompatActivity {
         Intent i = getIntent();
         String dateAndTimeExtra = i.getStringExtra(EXTRA_DATE_AND_TIME);
         String messageExtra = i.getStringExtra(EXTRA_MESSAGE);
-        int colorRecourceExtra = i.getIntExtra(EXTRA_COLOR,0);
+        int drawableRecourceExtra = i.getIntExtra(EXTRA_DRAWABLE,0);
 
         dateAndTime = (TextView) findViewById(R.id.lbl_date_and_time_header);
         dateAndTime.setText(dateAndTimeExtra);
@@ -40,10 +40,8 @@ public class DetailActivity extends AppCompatActivity {
 
         //Starting with API 23, items may optionally define an android:alpha attribute to modify the base color's opacity.
         // -> Mit ContextCompat.getColor wird die Farbe entsprechend dem Theme "umgerechnet"
-        coloredBackground = findViewById(R.id.cont_colored_background);
-        coloredBackground.setBackgroundColor(
-                ContextCompat.getColor(this, colorRecourceExtra)
-        );
+        coloredBackground = findViewById(R.id.imv_colored_background);
+        coloredBackground.setBackgroundResource(drawableRecourceExtra);
 
     }
 }
