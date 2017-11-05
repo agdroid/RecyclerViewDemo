@@ -12,6 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.transition.Fade;
 import android.util.Pair;
@@ -19,6 +20,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.agdroid.recyclerviewdemo.R;
@@ -27,6 +29,8 @@ import com.agdroid.recyclerviewdemo.data.ListItem;
 import com.agdroid.recyclerviewdemo.logic.Controller;
 
 import java.util.List;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 
 /**
@@ -48,6 +52,7 @@ public class ListActivity extends AppCompatActivity implements ViewInterface, Vi
     private LayoutInflater layoutInflator;
     private RecyclerView recyclerView;
     private CustomAdapter adapter;
+    private Toolbar toolbar;
 
     private Controller controller;
 
@@ -59,6 +64,10 @@ public class ListActivity extends AppCompatActivity implements ViewInterface, Vi
 
         recyclerView = (RecyclerView) findViewById(R.id.rec_list_activity);
         layoutInflator = getLayoutInflater();
+        toolbar = (Toolbar) findViewById(R.id.tlb_list_activity);
+        toolbar.setTitle(R.string.title_toolbar);
+        toolbar.setLogo(R.drawable.ic_view_list_white_24dp);
+        toolbar.setTitleMarginStart(72);
 
         FloatingActionButton fabulous = (FloatingActionButton) findViewById(R.id.fab_create_new_item);
         fabulous.setOnClickListener(this);
@@ -207,10 +216,12 @@ public class ListActivity extends AppCompatActivity implements ViewInterface, Vi
         public void onBindViewHolder(CustomViewHolder holder, int position) {
             ListItem currentItem = listOfData.get(position);
 
-            holder.coloredCircle.setBackgroundResource(currentItem.getColorResource());
+            holder.coloredCircle.setImageResource(currentItem.getColorResource());
             holder.message.setText(currentItem.getMessage());
             holder.dateAndTime.setText(currentItem.getDateAndTime());
 
+            // ProgressBar ist bei Anzeige des Elements nicht mehr sichtbar
+            holder.loading.setVisibility(View.INVISIBLE);
         }
 
         @Override
@@ -221,17 +232,19 @@ public class ListActivity extends AppCompatActivity implements ViewInterface, Vi
 
         class CustomViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-            private View coloredCircle;
+            private CircleImageView coloredCircle;
             private TextView dateAndTime;
             private TextView message;
             private ViewGroup container;
+            private ProgressBar loading;
 
             public CustomViewHolder(View itemView) {
                 super(itemView);
 
-                this.coloredCircle = (ImageView) itemView.findViewById(R.id.imv_list_item_circle);
+                this.coloredCircle = (CircleImageView) itemView.findViewById(R.id.imv_list_item_circle);
                 this.dateAndTime = (TextView) itemView.findViewById(R.id.lbl_date_and_time);
                 this.message = (TextView) itemView.findViewById(R.id.lbl_message);
+                this.loading = (ProgressBar) itemView.findViewById(R.id.pro_item_data);
                 this.container = (ViewGroup) itemView.findViewById(R.id.root_list_item);
 
                 this.container.setOnClickListener(this);
