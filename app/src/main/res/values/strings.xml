@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">RecyclerViewDemo</string>
+    <string name="action_delete_item">Delete Item</string>
+    <string name="action_undo">UNDO?</string>
 </resources>

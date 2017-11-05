@@ -10,6 +10,9 @@ import com.agdroid.recyclerviewdemo.view.ViewInterface;
 
 public class Controller {
 
+    private ListItem temporaryListItem;
+    private int temporaryListItemPosition;
+
     /*
         All that's going on with these Variables, is that we're talking to both ListActivity and
         FakeDataSource through Interfaces. This has many benefits, but I'd invite you to research
@@ -25,6 +28,7 @@ public class Controller {
      * 1. Assigns Interfaces Variables so that it can talk to the DataSource and that Activity
      * 2. Tells the dataSource to fetch a List of ListItems.
      * 3. Tells the View to draw the fetched List of Data.
+     *
      * @param view
      * @param dataSource
      */
@@ -67,5 +71,36 @@ public class Controller {
         ListItem newItem = dataSource.createNewListItem();
 
         view.addNewListItemToView(newItem);
+    }
+
+    public void onListItemSwiped(int position, ListItem listItem) {
+        //ensure that the view and data layers have consistent state
+        dataSource.deleteListItem(listItem);  // 1. Löschen in Daten
+        view.deleteListItemAt(position); //2. Löschen in View
+
+        temporaryListItemPosition = position;
+        temporaryListItem = listItem;
+
+        view.showUndoSnackbar();
+    }
+
+    public void onUndoConfirmed() {
+        if (temporaryListItem != null) {
+            //ensure View/Data consistency
+            dataSource.insertListItem(temporaryListItem);
+            view.insertListItemAt(temporaryListItemPosition, temporaryListItem);
+
+            temporaryListItem = null;
+            temporaryListItemPosition = 0;
+
+
+        } else {
+
+        }
+    }
+
+    public void onSnackbarTimeout() {
+        temporaryListItem = null;
+        temporaryListItemPosition = 0;
     }
 }

@@ -2,12 +2,15 @@ package com.agdroid.recyclerviewdemo.view;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.BaseTransientBottomBar;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -102,6 +105,9 @@ public class ListActivity extends AppCompatActivity implements ViewInterface, Vi
 
         recyclerView.addItemDecoration(itemDecoration);
 
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(createHelperCallback());
+        itemTouchHelper.attachToRecyclerView(recyclerView);
+
     }
 
     @Override
@@ -112,6 +118,43 @@ public class ListActivity extends AppCompatActivity implements ViewInterface, Vi
         adapter.notifyItemInserted(endOfList);
         recyclerView.smoothScrollToPosition(endOfList);
     }
+
+    @Override
+    public void deleteListItemAt(int position) {
+        listOfData.remove(position);
+        adapter.notifyItemRemoved(position);
+    }
+
+    @Override
+    public void showUndoSnackbar() {
+        Snackbar.make(
+                findViewById(R.id.root_list_activity),
+                getString(R.string.action_delete_item),
+                Snackbar.LENGTH_LONG
+        )
+                .setAction(R.string.action_undo, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        controller.onUndoConfirmed();
+                    }
+                })
+                .addCallback(new BaseTransientBottomBar.BaseCallback<Snackbar>() {
+                    @Override
+                    public void onDismissed(Snackbar transientBottomBar, int event) {
+                        super.onDismissed(transientBottomBar, event);
+
+                        controller.onSnackbarTimeout();
+                    }
+                })
+                .show();
+    }
+
+    @Override
+    public void insertListItemAt(int position, ListItem listItem) {
+        listOfData.add(position, listItem);
+        adapter.notifyItemInserted(position);
+    }
+
 
     @Override
     public void onClick(View v) {
@@ -177,5 +220,35 @@ public class ListActivity extends AppCompatActivity implements ViewInterface, Vi
             }
         }
 
+    }
+
+    private ItemTouchHelper.Callback createHelperCallback() {
+        /*First Param is for Up/Down motion, second is for Left/Right.
+        Note that we can supply 0, one constant (e.g. ItemTouchHelper.LEFT), or two constants (e.g.
+        ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) to specify what directions are allowed.
+        */
+
+        ItemTouchHelper.Callback simpleItemTouchCallback = new ItemTouchHelper.SimpleCallback(
+                0,
+                ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+
+            // Not used. as the first parameter above is 0
+            @Override
+            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+                int position = viewHolder.getAdapterPosition();
+                controller.onListItemSwiped(
+                        position,
+                        listOfData.get(position)
+                );
+            }
+        };
+
+
+        return simpleItemTouchCallback;
     }
 }

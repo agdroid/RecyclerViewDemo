@@ -76,4 +76,14 @@ public class FakeDataSource implements DataSourceInterface {
 
         return listItem;
     }
+
+    @Override
+    public void deleteListItem(ListItem listItem) {
+
+    }
+
+    @Override
+    public void insertListItem(ListItem temporaryListItem) {
+
+    }
 }
