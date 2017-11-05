@@ -113,7 +113,7 @@ public class ControllerUnitTest {
         Mockito.verify(view).startDetailActivity(
                 testItem.getDateAndTime(),
                 testItem.getMessage(),
-                testItem.getColorResource());
+                testItem.getColorResource(), viewRoot);
     }
 
 

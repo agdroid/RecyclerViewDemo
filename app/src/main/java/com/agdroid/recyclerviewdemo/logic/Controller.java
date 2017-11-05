@@ -1,5 +1,7 @@
 package com.agdroid.recyclerviewdemo.logic;
 
+import android.view.View;
+
 import com.agdroid.recyclerviewdemo.data.DataSourceInterface;
 import com.agdroid.recyclerviewdemo.data.ListItem;
 import com.agdroid.recyclerviewdemo.view.ViewInterface;
@@ -51,11 +53,12 @@ public class Controller {
         );
     }
 
-    public void onListItemClick(ListItem testItem) {
+    public void onListItemClick(ListItem selectedItem, View viewRoot) {
         view.startDetailActivity(
-                testItem.getDateAndTime(),
-                testItem.getMessage(),
-                testItem.getColorResource()
+                selectedItem.getDateAndTime(),
+                selectedItem.getMessage(),
+                selectedItem.getColorResource(),
+                viewRoot
         );
     }
 

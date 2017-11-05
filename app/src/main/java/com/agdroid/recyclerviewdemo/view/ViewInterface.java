@@ -1,5 +1,7 @@
 package com.agdroid.recyclerviewdemo.view;
 
+import android.view.View;
+
 import com.agdroid.recyclerviewdemo.data.ListItem;
 
 import java.util.List;
@@ -10,7 +12,7 @@ import java.util.List;
 
 public interface ViewInterface {
 
-    void startDetailActivity(String dateAndTime, String massage, int colorResource);
+    void startDetailActivity(String dateAndTime, String massage, int colorResource, View viewRoot);
 
     void setUpAdapterAndView(List<ListItem> listOfData);
 

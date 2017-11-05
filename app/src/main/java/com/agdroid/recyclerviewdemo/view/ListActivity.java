@@ -1,6 +1,8 @@
 package com.agdroid.recyclerviewdemo.view;
 
+import android.app.ActivityOptions;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.BaseTransientBottomBar;
 import android.support.design.widget.FloatingActionButton;
@@ -11,6 +13,8 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.transition.Fade;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -70,16 +74,39 @@ public class ListActivity extends AppCompatActivity implements ViewInterface, Vi
      * the Item from the Database their. However, this is a RecyclerView Demo App and I'm going to
      * simplify things like this. Also, by decomposing ListItem, it saves me having to make ListItem
      * Parcelable and bla bla bla whatever.
+     * *
+     *  @param dateAndTime
+     * @param message
+     * @param colorResource
+     * @param viewRoot
      */
     @Override
-    public void startDetailActivity(String dateAndTime, String message, int colorResource) {
+    public void startDetailActivity(String dateAndTime, String message, int colorResource, View viewRoot) {
         Intent i = new Intent(this, DetailActivity.class);
         i.putExtra(EXTRA_DATE_AND_TIME, dateAndTime);
         i.putExtra(EXTRA_MESSAGE, message);
         i.putExtra(EXTRA_DRAWABLE, colorResource);
 
-        startActivity(i);
+        //SDK Lollipop = 21
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().setEnterTransition(new Fade(Fade.IN));
+            getWindow().setEnterTransition(new Fade(Fade.OUT));
+
+            ActivityOptions options = ActivityOptions
+                    .makeSceneTransitionAnimation(this,
+                            new Pair<View, String>(viewRoot.findViewById(R.id.imv_list_item_circle),
+                                    getString(R.string.transition_drawable)),
+                            new Pair<View, String>(viewRoot.findViewById(R.id.lbl_message),
+                                    getString(R.string.transition_message)),
+                            new Pair<View, String>(viewRoot.findViewById(R.id.lbl_date_and_time),
+                                    getString(R.string.transition_time_and_date)));
+
+            startActivity(i, options.toBundle());
+        } else {
+            startActivity(i);
+        }
     }
+
 
     @Override
     public void setUpAdapterAndView(List<ListItem> listOfData) {
@@ -216,7 +243,7 @@ public class ListActivity extends AppCompatActivity implements ViewInterface, Vi
                         this.getAdapterPosition()
                 );
 
-                controller.onListItemClick(listItem);
+                controller.onListItemClick(listItem, v);
             }
         }
 

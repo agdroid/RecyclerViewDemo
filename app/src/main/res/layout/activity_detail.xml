@@ -8,6 +8,7 @@
 
     <ImageView
         android:id="@+id/imv_colored_background"
+        android:transitionName="@string/transition_drawable"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/div_center" />
@@ -15,6 +16,7 @@
     <TextView
         android:id="@+id/lbl_date_and_time_header"
         style="@style/Text.Primary"
+        android:transitionName="@string/transition_time_and_date"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@id/div_center"
@@ -32,6 +34,7 @@
     <TextView
         android:id="@+id/lbl_message_body"
         style="@style/Text.Secondary"
+        android:transitionName="@string/transition_message"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/div_center"
